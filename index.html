@@ -18,12 +18,12 @@
   body{margin:0;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;}
   h1,h2,h3,.font-display{font-family:"Newsreader",Georgia,serif;}
   header.top{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;padding:20px 28px 16px;position:relative;overflow:hidden;}
-  header.top::before{content:"";position:absolute;top:-60%;right:-8%;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.14) 0%,transparent 70%);}
-  header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-light) 50%,var(--gold) 80%,transparent);}
+  header.top::before{content:"";position:absolute;top:-60%;right:-8%;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.14) 0%,transparent 70%);pointer-events:none;z-index:0;}
+  header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-light) 50%,var(--gold) 80%,transparent);pointer-events:none;z-index:0;}
   header.top .eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:10.5px;color:var(--gold-light);font-weight:700;margin-bottom:7px;position:relative;}
   header.top h1{margin:0 0 5px;font-size:21px;font-weight:600;letter-spacing:.01em;position:relative;}
   header.top p{margin:0;color:#aebbd2;font-size:12.5px;max-width:760px;position:relative;}
-  .topbar-session{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .topbar-session{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:relative;z-index:2;}
   .session-info{display:flex;align-items:center;gap:10px;font-size:13px;color:#dfe6f2;}
   .session-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:5px 12px;border-radius:20px;font-weight:700;}
   .wrap{max-width:1180px;margin:0 auto;padding:20px 20px 40px;}
@@ -559,6 +559,8 @@ document.getElementById('btnLogout').addEventListener('click', ()=>{
   clearSession();
   document.getElementById('loginTenXa').value=''; document.getElementById('loginMatKhau').value='';
   document.getElementById('loginAdminKey').value='';
+  document.getElementById('loginAdminBlock').style.display='none';
+  document.getElementById('loginXaBlock').style.display='block';
   showScreen('login');
 });
 
