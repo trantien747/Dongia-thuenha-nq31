@@ -10,19 +10,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#0f2144; --navy-2:#1a3564; --navy-3:#24406f; --gold:#c9a227; --gold-light:#eddca6;
-    --paper:#f6f5f1; --ink:#1b2130; --muted:#646d7a; --line:#e4e3dd;
-    --ok:#1c7a4d; --warn:#9c4221; --card:#ffffff; --radius:14px;
+    --navy:#132a4d; --navy-2:#1c3866; --navy-3:#2a4a80; --gold:#c9a227; --gold-light:#eddca6;
+    --paper:#f5f4ef; --ink:#1b2130; --muted:#666f7c; --line:#e6e4dd;
+    --ok:#1c7a4d; --warn:#9c4221; --card:#ffffff; --radius:16px;
+    --shadow-sm:0 1px 3px rgba(19,42,77,.05), 0 1px 2px rgba(19,42,77,.04);
+    --shadow-md:0 8px 28px rgba(19,42,77,.08);
   }
   *{box-sizing:border-box;}
   body{margin:0;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;}
   h1,h2,h3,.font-display{font-family:"Newsreader",Georgia,serif;}
-  header.top{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;padding:20px 28px 16px;position:relative;overflow:hidden;}
-  header.top::before{content:"";position:absolute;top:-60%;right:-8%;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.14) 0%,transparent 70%);pointer-events:none;z-index:0;}
+  header.top{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;padding:16px 28px 14px;position:relative;overflow:hidden;}
+  header.top::before{content:"";position:absolute;top:-70%;right:-6%;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.13) 0%,transparent 70%);pointer-events:none;z-index:0;}
   header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-light) 50%,var(--gold) 80%,transparent);pointer-events:none;z-index:0;}
-  header.top .eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:10.5px;color:var(--gold-light);font-weight:700;margin-bottom:7px;position:relative;}
-  header.top h1{margin:0 0 5px;font-size:21px;font-weight:600;letter-spacing:.01em;position:relative;}
-  header.top p{margin:0;color:#aebbd2;font-size:12.5px;max-width:760px;position:relative;}
+  header.top .eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:10px;color:var(--gold-light);font-weight:700;margin-bottom:5px;position:relative;opacity:.9;}
+  header.top h1{margin:0 0 3px;font-size:19px;font-weight:600;letter-spacing:.01em;position:relative;}
+  header.top p{margin:0;color:#a8b6cf;font-size:12px;max-width:760px;position:relative;}
   .topbar-session{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:relative;z-index:2;}
   .session-info{display:flex;align-items:center;gap:10px;font-size:13px;color:#dfe6f2;}
   .session-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:5px 12px;border-radius:20px;font-weight:700;}
@@ -42,46 +44,52 @@
   .btn:disabled{opacity:.5;cursor:not-allowed;}
 
   /* Cards & forms */
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 3px rgba(15,33,68,.04);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:18px;box-shadow:var(--shadow-sm);}
   .card h2{font-size:16px;margin:0 0 4px;color:var(--navy);font-weight:600;}
-  .card .sub{font-size:12.5px;color:var(--muted);margin:0 0 16px;}
-  .field{margin-bottom:14px;} .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#333c4a;}
-  .field .hint{font-size:11.5px;color:var(--muted);margin-top:4px;}
-  input[type=text],input[type=password],input[type=number],select{width:100%;padding:10px 12px;border:1.5px solid #d7d9de;border-radius:8px;font-size:13.5px;background:#fff;color:var(--ink);font-family:inherit;transition:border-color .15s;}
-  input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.15);}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;} .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .card .sub{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+  .field{margin-bottom:15px;} .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#3a4250;}
+  .field .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4;}
+  input[type=text],input[type=password],input[type=number],select{width:100%;padding:10px 13px;border:1.5px solid #dcdee3;border-radius:9px;font-size:13.5px;background:#fbfbfa;color:var(--ink);font-family:inherit;transition:border-color .15s,background .15s;}
+  input:focus,select:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(201,162,39,.14);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;} .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
   @media (max-width:640px){.row2,.row3{grid-template-columns:1fr;}}
-  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:start;}
+  .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start;}
   @media (max-width:940px){.grid{grid-template-columns:1fr;}}
 
-  /* Tabs */
-  .tabs{display:flex;gap:6px;margin:18px 0 16px;border-bottom:2px solid var(--line);flex-wrap:wrap;}
-  .tab-btn{padding:10px 16px;border:none;background:none;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;}
-  .tab-btn.active{color:var(--navy);border-bottom-color:var(--gold);}
+  /* Tabs — segmented pill control */
+  .tabs{display:flex;gap:4px;margin:22px 0 20px;padding:5px;background:#fff;border:1px solid var(--line);border-radius:12px;width:fit-content;max-width:100%;overflow-x:auto;box-shadow:var(--shadow-sm);}
+  .tab-btn{padding:9px 16px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);border-radius:8px;white-space:nowrap;transition:all .15s;}
+  .tab-btn:hover{color:var(--navy);background:#f4f5f8;}
+  .tab-btn.active{color:#fff;background:var(--navy);}
   .panel{display:none;} .panel.active{display:block;}
 
   /* Radio cards (Ghm cases) */
-  .radio-card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;}
-  .radio-card.selected{border-color:var(--gold);background:#fdf9ee;}
-  .radio-card label{display:flex;gap:8px;align-items:flex-start;font-size:13px;font-weight:700;cursor:pointer;}
+  .radio-card{border:1.5px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:10px;cursor:pointer;background:#fff;transition:all .15s;}
+  .radio-card:hover{border-color:#c7ccd6;}
+  .radio-card.selected{border-color:var(--gold);background:#fefbf2;box-shadow:0 0 0 3px rgba(201,162,39,.1);}
+  .radio-card label{display:flex;gap:9px;align-items:flex-start;font-size:13px;font-weight:600;cursor:pointer;color:#2b3240;}
   .radio-card .desc{font-size:12px;color:var(--muted);font-weight:400;margin-top:3px;}
-  .radio-card input{width:auto;margin-top:3px;}
-  .subinputs{margin-top:10px;padding-left:24px;display:none;} .radio-card.selected .subinputs{display:block;}
-  fieldset{border:1px dashed var(--line);border-radius:8px;padding:12px;margin:0 0 14px;}
-  fieldset legend{font-size:12.5px;font-weight:700;color:var(--navy);padding:0 6px;}
-  .checkbox-line{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin-bottom:10px;}
-  .checkbox-line input{width:auto;}
+  .radio-card input{width:auto;margin-top:3px;accent-color:var(--gold);}
+  .subinputs{margin-top:12px;padding-left:24px;display:none;} .radio-card.selected .subinputs{display:block;}
+  fieldset{border:1px solid var(--line);border-radius:12px;padding:16px 16px 6px;margin:0 0 16px;background:#fbfbf8;}
+  fieldset legend{font-size:11.5px;font-weight:700;color:var(--navy);padding:3px 12px;background:#fff;border:1px solid var(--line);border-radius:20px;}
+  .checkbox-line{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;margin-bottom:10px;color:#2b3240;}
+  .checkbox-line input{width:auto;accent-color:var(--gold);}
 
   /* Results */
-  .result-box{background:var(--navy);color:#fff;border-radius:var(--radius);padding:20px 22px;position:sticky;top:16px;}
-  .result-box h2{color:var(--gold-light);font-size:14px;margin:0 0 14px;text-transform:uppercase;letter-spacing:.06em;}
-  .result-line{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:13px;gap:10px;}
+  .result-panel{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md);border:1px solid var(--line);}
+  .result-hero-band{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;padding:26px 24px 22px;text-align:center;position:relative;overflow:hidden;}
+  .result-hero-band::before{content:"";position:absolute;top:-40%;left:-10%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.18),transparent 70%);pointer-events:none;}
+  .result-hero-band .eyebrow-mini{text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:var(--gold-light);font-weight:700;margin-bottom:10px;position:relative;opacity:.9;}
+  .result-hero-band .num{font-size:30px;font-weight:800;color:#fff;word-break:break-all;position:relative;}
+  .result-hero-band .unit{font-size:11.5px;color:#b9c6de;margin-top:4px;position:relative;}
+  .result-body{padding:18px 24px 22px;}
+  .result-line{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;gap:10px;}
   .result-line:last-child{border-bottom:none;}
-  .result-line .lbl{color:#c9d2e3;} .result-line .val{font-weight:700;font-size:14.5px;text-align:right;}
-  .result-hero{text-align:center;padding:16px 0 20px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:6px;}
-  .result-hero .num{font-size:26px;font-weight:800;color:var(--gold-light);word-break:break-all;}
-  .result-hero .unit{font-size:12px;color:#c9d2e3;margin-top:2px;}
-  .formula-box{background:#f0f2f6;border-radius:8px;padding:10px 12px;font-family:"Cambria Math",Georgia,serif;font-size:13.5px;text-align:center;margin-bottom:14px;color:var(--navy);overflow-x:auto;}
+  .result-line .lbl{color:var(--muted);} .result-line .val{font-weight:700;font-size:14px;text-align:right;color:var(--ink);}
+  .result-empty{border:1.5px dashed #cfd3da;border-radius:18px;padding:44px 26px;text-align:center;color:var(--muted);font-size:13px;background:#fdfdfc;}
+  .result-empty .icon{font-size:30px;margin-bottom:10px;opacity:.55;}
+  .formula-box{background:#f3f2ec;border-radius:10px;padding:11px 14px;font-family:"Cambria Math",Georgia,serif;font-size:13.5px;text-align:center;margin-bottom:14px;color:var(--navy);overflow-x:auto;}
 
   /* Tables */
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
@@ -119,14 +127,15 @@
 
   /* Credit footer */
   .credit-box{
-    max-width:1180px;margin:30px auto 0;padding:16px 22px;border-radius:12px;
-    background:#fff;border:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    max-width:1180px;margin:30px auto 0;padding:18px 24px;border-radius:14px;
+    background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:var(--shadow-sm);
   }
-  .credit-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--gold));flex:none;
-    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;}
-  .credit-text b{color:var(--navy);}
-  .credit-text .role{font-size:12px;color:var(--muted);}
-  .credit-text .contact{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .credit-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--navy-3));flex:none;
+    display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-weight:800;font-size:14px;letter-spacing:.03em;}
+  .credit-text .name-line{font-size:13.5px;}
+  .credit-text .name-line b{color:var(--navy);}
+  .credit-text .contact{font-size:12px;color:var(--muted);margin-top:3px;}
   .footer-note{margin-top:16px;font-size:11px;color:var(--muted);text-align:center;}
 </style>
 </head>
@@ -276,14 +285,25 @@
       </div>
 
       <div>
-        <div class="result-box">
-          <h2>Kết quả tính toán</h2>
-          <div class="result-hero"><div class="num" id="resGt">—</div><div class="unit">Đơn giá cho thuê nhà G<sub>t</sub> (đồng/m²/năm)</div></div>
-          <div class="result-line"><span class="lbl">G<sub>hm</sub> — Giá trị hao mòn hằng năm</span><span class="val" id="resGhm">—</span></div>
-          <div class="result-line"><span class="lbl">Công thức áp dụng</span><span class="val" id="resFormulaUsed" style="font-size:12px;font-weight:600;">—</span></div>
-          <div class="result-line"><span class="lbl">T<sub>tn</sub> — Tiền thuê nhà/năm</span><span class="val" id="resTtn">—</span></div>
-          <div class="result-line"><span class="lbl">T<sub>tnưđ</sub> — Tiền thuê năm hưởng ưu đãi</span><span class="val" id="resTtnud">—</span></div>
-          <div style="margin-top:16px;"><button class="btn btn-gold" id="btnSave" style="width:100%;">💾 Lưu tài sản này vào danh sách của xã</button></div>
+        <div id="resultEmpty" class="result-empty">
+          <div class="icon">📊</div>
+          <div><b>Chưa có kết quả</b></div>
+          <div style="margin-top:6px;">Nhập thông tin bên trái rồi bấm <b>Tính đơn giá</b> để xem kết quả tại đây.</div>
+        </div>
+
+        <div id="resultFilled" class="result-panel" style="display:none;">
+          <div class="result-hero-band">
+            <div class="eyebrow-mini">Đơn giá cho thuê nhà</div>
+            <div class="num" id="resGt">—</div>
+            <div class="unit">G<sub>t</sub> (đồng/m²/năm)</div>
+          </div>
+          <div class="result-body">
+            <div class="result-line"><span class="lbl">G<sub>hm</sub> — Giá trị hao mòn hằng năm</span><span class="val" id="resGhm">—</span></div>
+            <div class="result-line"><span class="lbl">Công thức áp dụng</span><span class="val" id="resFormulaUsed" style="font-size:12px;font-weight:600;">—</span></div>
+            <div class="result-line"><span class="lbl">T<sub>tn</sub> — Tiền thuê nhà/năm</span><span class="val" id="resTtn">—</span></div>
+            <div class="result-line"><span class="lbl">T<sub>tnưđ</sub> — Tiền thuê năm hưởng ưu đãi</span><span class="val" id="resTtnud">—</span></div>
+            <div style="margin-top:16px;"><button class="btn btn-gold" id="btnSave" style="width:100%;">💾 Lưu tài sản này vào danh sách của xã</button></div>
+          </div>
         </div>
 
         <div class="card" style="margin-top:16px;">
@@ -364,7 +384,7 @@
       <h2>Cách sử dụng</h2>
       <ol style="font-size:13.5px;padding-left:20px;">
         <li>Nhập thông tin tài sản, chọn đúng 1 trong 3 trường hợp tính G<sub>hm</sub>, bấm <b>Tính đơn giá</b>.</li>
-        <li>Kiểm tra kết quả bên phải, bấm <b>Lưu tài sản này vào danh sách của xã</b> để lưu lên hệ thống chung.</li>
+        <li>Kiểm tra kết quả bên phải, bấm <b>Lưu tài sản này vào danh sách của xã</b> để tra cứu lại.</li>
         <li>Lặp lại cho từng tài sản dôi dư — dữ liệu cũ vẫn được giữ nguyên.</li>
         <li>Sang tab <b>Danh sách đã lưu</b> để xem, xoá hoặc xuất Excel.</li>
       </ol>
@@ -435,8 +455,8 @@
   <div class="credit-box">
     <div class="credit-avatar">TVT</div>
     <div class="credit-text">
-      <div><b>Trần Văn Tiến</b> — Trung tâm cung ứng dịch vụ sự nghiệp công xã Krông Búk</div>
-      <div class="contact">📞 0973.141.747 · Người xây dựng công cụ này</div>
+      <div class="name-line">Design By <b>Trần Văn Tiến</b> — Trung tâm cung ứng dịch vụ sự nghiệp công xã Krông Búk</div>
+      <div class="contact">📞 0973.141.747</div>
     </div>
   </div>
   <div class="footer-note">Công cụ tham khảo dựa trên Nghị quyết số 31/2026/NQ-CP ngày 24/6/2026 của Chính phủ. Vui lòng đối chiếu văn bản gốc và số liệu thực tế trước khi ban hành quyết định chính thức.</div>
@@ -624,6 +644,8 @@ document.getElementById('btnTinh').addEventListener('click', ()=>{
     }
   }
 
+  document.getElementById('resultEmpty').style.display = 'none';
+  document.getElementById('resultFilled').style.display = 'block';
   document.getElementById('resGt').textContent = fmt(Gt);
   document.getElementById('resGhm').textContent = fmt(ghm)+' đ/năm';
   document.getElementById('resFormulaUsed').textContent = label;
@@ -649,6 +671,8 @@ document.getElementById('btnClearForm').addEventListener('click', ()=>{
   document.getElementById('inpK').value=10;
   document.getElementById('chkUuDai').checked=false;
   document.getElementById('uudaiInputs').style.display='none';
+  document.getElementById('resultFilled').style.display='none';
+  document.getElementById('resultEmpty').style.display='block';
   document.getElementById('resGt').textContent='—'; document.getElementById('resGhm').textContent='—';
   document.getElementById('resFormulaUsed').textContent='—'; document.getElementById('resTtn').textContent='—'; document.getElementById('resTtnud').textContent='—';
   lastResult=null;
