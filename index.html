@@ -66,30 +66,67 @@
   /* Radio cards (Ghm cases) */
   .radio-card{border:1.5px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:10px;cursor:pointer;background:#fff;transition:all .15s;}
   .radio-card:hover{border-color:#c7ccd6;}
-  .radio-card.selected{border-color:var(--gold);background:#fefbf2;box-shadow:0 0 0 3px rgba(201,162,39,.1);}
   .radio-card label{display:flex;gap:9px;align-items:flex-start;font-size:13px;font-weight:600;cursor:pointer;color:#2b3240;}
   .radio-card .desc{font-size:12px;color:var(--muted);font-weight:400;margin-top:3px;}
-  .radio-card input{width:auto;margin-top:3px;accent-color:var(--gold);}
+  .radio-card input{width:auto;margin-top:3px;}
   .subinputs{margin-top:12px;padding-left:24px;display:none;} .radio-card.selected .subinputs{display:block;}
+  .case-chip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;padding:2px 8px;border-radius:20px;margin-right:2px;flex:none;}
+  .case-1 .case-chip{background:#e4f5ea;color:#1c7a4d;} .case-1.selected{border-color:#1c7a4d;background:#f3fbf6;box-shadow:0 0 0 3px rgba(28,122,77,.1);} .case-1 input{accent-color:#1c7a4d;}
+  .case-2 .case-chip{background:#fbecd9;color:#b3651b;} .case-2.selected{border-color:#c9822a;background:#fef8f0;box-shadow:0 0 0 3px rgba(201,130,42,.12);} .case-2 input{accent-color:#c9822a;}
+  .case-3 .case-chip{background:#e2ecfa;color:#1d4e8c;} .case-3.selected{border-color:#2a5da0;background:#f2f6fc;box-shadow:0 0 0 3px rgba(42,93,160,.1);} .case-3 input{accent-color:#2a5da0;}
   fieldset{border:1px solid var(--line);border-radius:12px;padding:16px 16px 6px;margin:0 0 16px;background:#fbfbf8;}
   fieldset legend{font-size:11.5px;font-weight:700;color:var(--navy);padding:3px 12px;background:#fff;border:1px solid var(--line);border-radius:20px;}
   .checkbox-line{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;margin-bottom:10px;color:#2b3240;}
   .checkbox-line input{width:auto;accent-color:var(--gold);}
 
   /* Results */
-  .result-panel{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md);border:1px solid var(--line);}
-  .result-hero-band{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;padding:26px 24px 22px;text-align:center;position:relative;overflow:hidden;}
+  .result-panel{background:#fff;border-radius:18px;box-shadow:var(--shadow-md);border:1px solid var(--line);position:relative;}
+  .result-hero-band{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;padding:26px 24px 22px;text-align:center;position:relative;overflow:hidden;border-radius:18px 18px 0 0;}
   .result-hero-band::before{content:"";position:absolute;top:-40%;left:-10%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.18),transparent 70%);pointer-events:none;}
   .result-hero-band .eyebrow-mini{text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:var(--gold-light);font-weight:700;margin-bottom:10px;position:relative;opacity:.9;}
   .result-hero-band .num{font-size:30px;font-weight:800;color:#fff;word-break:break-all;position:relative;}
   .result-hero-band .unit{font-size:11.5px;color:#b9c6de;margin-top:4px;position:relative;}
-  .result-body{padding:18px 24px 22px;}
+  .ticket-seam{position:relative;height:0;}
+  .ticket-seam .notch{position:absolute;top:-11px;width:22px;height:22px;border-radius:50%;background:var(--paper);z-index:2;}
+  .ticket-seam .notch-left{left:-11px;} .ticket-seam .notch-right{right:-11px;}
+  .ticket-seam .dash-line{display:block;border-top:2px dashed #d5d2c7;margin:0 20px;position:relative;top:-1px;}
+  .result-body{padding:20px 24px 22px;position:relative;border-radius:0 0 18px 18px;}
   .result-line{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;gap:10px;}
   .result-line:last-child{border-bottom:none;}
   .result-line .lbl{color:var(--muted);} .result-line .val{font-weight:700;font-size:14px;text-align:right;color:var(--ink);}
   .result-empty{border:1.5px dashed #cfd3da;border-radius:18px;padding:44px 26px;text-align:center;color:var(--muted);font-size:13px;background:#fdfdfc;}
   .result-empty .icon{font-size:30px;margin-bottom:10px;opacity:.55;}
   .formula-box{background:#f3f2ec;border-radius:10px;padding:11px 14px;font-family:"Cambria Math",Georgia,serif;font-size:13.5px;text-align:center;margin-bottom:14px;color:var(--navy);overflow-x:auto;}
+
+  /* Con dấu "Đã tính toán" trên phiếu */
+  .stamp-seal{position:absolute;top:14px;right:18px;width:74px;height:74px;border-radius:50%;
+    border:2.5px solid #b3261e;color:#b3261e;display:flex;align-items:center;justify-content:center;
+    text-align:center;font-size:9px;font-weight:800;letter-spacing:.03em;line-height:1.25;
+    transform:rotate(-14deg);opacity:.8;pointer-events:none;z-index:3;
+    animation:stampIn .35s ease-out;}
+  .stamp-seal::before{content:"";position:absolute;inset:5px;border:1px solid #b3261e;border-radius:50%;}
+  @keyframes stampIn{ 0%{opacity:0;transform:rotate(-14deg) scale(1.6);} 100%{opacity:.8;transform:rotate(-14deg) scale(1);} }
+
+  /* Bảng thống kê tổng quan (Danh sách đã lưu) */
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+  @media (max-width:760px){.stat-grid{grid-template-columns:1fr;}}
+  .stat-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm);border-top:3px solid var(--gold);}
+  .stat-card .stat-label{font-size:11.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+  .stat-card .stat-value{font-size:20px;font-weight:800;color:var(--navy);}
+  .stat-card .stat-unit{font-size:11px;color:var(--muted);margin-top:2px;}
+
+  /* Phiếu in / xuất PDF (chỉ hiện khi in) */
+  .print-slip{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printSlip, #printSlip *{visibility:visible;}
+    #printSlip{display:block !important;position:absolute;top:0;left:0;width:100%;padding:24px;font-family:"Times New Roman",serif;color:#000;}
+    #printSlip h2{text-align:center;margin:0 0 4px;font-size:18px;}
+    #printSlip .center{text-align:center;}
+    #printSlip table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px;}
+    #printSlip td{border:1px solid #000;padding:6px 8px;}
+    #printSlip .sign-row{display:flex;justify-content:space-between;margin-top:50px;font-size:13px;text-align:center;}
+  }
 
   /* Tables */
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
@@ -238,26 +275,26 @@
           <fieldset>
             <legend>Cách xác định giá trị hao mòn hằng năm — G<sub>hm</sub> (chọn đúng 1 trường hợp)</legend>
 
-            <div class="radio-card selected" data-mode="1">
+            <div class="radio-card case-1 selected" data-mode="1">
               <label><input type="radio" name="ghmMode" value="1" checked>
-                Trường hợp 1: Thời gian sử dụng để tính hao mòn còn lại ≥ thời hạn cho thuê nhà
-                <div class="desc">Nhập trực tiếp mức hao mòn hằng năm của nhà, công trình gắn liền với đất.</div>
+                <span><span class="case-chip">TH1</span> Thời gian sử dụng để tính hao mòn còn lại ≥ thời hạn cho thuê nhà
+                <div class="desc">Nhập trực tiếp mức hao mòn hằng năm của nhà, công trình gắn liền với đất.</div></span>
               </label>
               <div class="subinputs"><div class="field"><label>Mức hao mòn hằng năm (đồng/năm)</label><input type="number" step="any" id="inpHaomon1"></div></div>
             </div>
 
-            <div class="radio-card" data-mode="2">
+            <div class="radio-card case-2" data-mode="2">
               <label><input type="radio" name="ghmMode" value="2">
-                Trường hợp 2: Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại &gt; 10% nguyên giá
-                <div class="desc">G<sub>hm</sub> = Giá trị còn lại trên sổ kế toán ÷ Thời hạn cho thuê nhà</div>
+                <span><span class="case-chip">TH2</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại &gt; 10% nguyên giá
+                <div class="desc">G<sub>hm</sub> = Giá trị còn lại trên sổ kế toán ÷ Thời hạn cho thuê nhà</div></span>
               </label>
               <div class="subinputs"><div class="field"><label>Giá trị còn lại trên sổ kế toán (đồng)</label><input type="number" step="any" id="inpGiatriconlai2"></div></div>
             </div>
 
-            <div class="radio-card" data-mode="3">
+            <div class="radio-card case-3" data-mode="3">
               <label><input type="radio" name="ghmMode" value="3">
-                Trường hợp 3: Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại ≤ 10% nguyên giá
-                <div class="desc">G<sub>hm</sub> = (Nguyên giá trên sổ kế toán × 10%) ÷ Thời hạn cho thuê nhà</div>
+                <span><span class="case-chip">TH3</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại ≤ 10% nguyên giá
+                <div class="desc">G<sub>hm</sub> = (Nguyên giá trên sổ kế toán × 10%) ÷ Thời hạn cho thuê nhà</div></span>
               </label>
               <div class="subinputs"><div class="field"><label>Nguyên giá trên sổ kế toán (đồng)</label><input type="number" step="any" id="inpNguyengia3"></div></div>
             </div>
@@ -293,16 +330,21 @@
 
         <div id="resultFilled" class="result-panel" style="display:none;">
           <div class="result-hero-band">
-            <div class="eyebrow-mini">Đơn giá cho thuê nhà</div>
+            <div class="eyebrow-mini">Phiếu tính đơn giá cho thuê nhà</div>
             <div class="num" id="resGt">—</div>
             <div class="unit">G<sub>t</sub> (đồng/m²/năm)</div>
           </div>
+          <div class="ticket-seam"><span class="notch notch-left"></span><span class="dash-line"></span><span class="notch notch-right"></span></div>
           <div class="result-body">
+            <div class="stamp-seal" id="stampSeal">✓<br>ĐÃ TÍNH<br>TOÁN</div>
             <div class="result-line"><span class="lbl">G<sub>hm</sub> — Giá trị hao mòn hằng năm</span><span class="val" id="resGhm">—</span></div>
             <div class="result-line"><span class="lbl">Công thức áp dụng</span><span class="val" id="resFormulaUsed" style="font-size:12px;font-weight:600;">—</span></div>
             <div class="result-line"><span class="lbl">T<sub>tn</sub> — Tiền thuê nhà/năm</span><span class="val" id="resTtn">—</span></div>
             <div class="result-line"><span class="lbl">T<sub>tnưđ</sub> — Tiền thuê năm hưởng ưu đãi</span><span class="val" id="resTtnud">—</span></div>
-            <div style="margin-top:16px;"><button class="btn btn-gold" id="btnSave" style="width:100%;">💾 Lưu tài sản này vào danh sách của xã</button></div>
+            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+              <button class="btn btn-gold" id="btnSave" style="flex:1;min-width:180px;">💾 Lưu vào danh sách của xã</button>
+              <button class="btn btn-outline" id="btnPrintSlip">🖨️ In phiếu này</button>
+            </div>
           </div>
         </div>
 
@@ -342,6 +384,11 @@
 
   <!-- TAB 3: DANH SÁCH -->
   <div class="panel" id="panel-xa-danhsach">
+    <div class="stat-grid" id="xaStatGrid">
+      <div class="stat-card"><div class="stat-label">Tổng số tài sản</div><div class="stat-value" id="statTongTaiSan">0</div></div>
+      <div class="stat-card"><div class="stat-label">Tổng diện tích đất</div><div class="stat-value" id="statTongDienTich">0</div><div class="stat-unit">m²</div></div>
+      <div class="stat-card"><div class="stat-label">Tổng tiền thuê dự kiến/năm</div><div class="stat-value" id="statTongTien">0</div><div class="stat-unit">đồng</div></div>
+    </div>
     <div class="card">
       <div class="toolbar">
         <span class="pill" id="xaCountPill">0 tài sản</span>
@@ -425,7 +472,14 @@
         <div class="field"><label>Chọn xã cần xem</label><select id="selAdXa"></select></div>
         <div class="field" style="align-self:end;"><button class="btn btn-primary" id="btnLoadAdXaData" style="width:100%;">Xem dữ liệu xã này</button></div>
       </div>
-      <div class="toolbar" style="margin-top:10px;">
+    </div>
+    <div class="stat-grid" id="adStatGrid">
+      <div class="stat-card"><div class="stat-label">Tổng số tài sản</div><div class="stat-value" id="adStatTongTaiSan">0</div></div>
+      <div class="stat-card"><div class="stat-label">Tổng diện tích đất</div><div class="stat-value" id="adStatTongDienTich">0</div><div class="stat-unit">m²</div></div>
+      <div class="stat-card"><div class="stat-label">Tổng tiền thuê dự kiến/năm</div><div class="stat-value" id="adStatTongTien">0</div><div class="stat-unit">đồng</div></div>
+    </div>
+    <div class="card">
+      <div class="toolbar" style="margin-top:0;">
         <span class="pill" id="adDetailCountPill">0 tài sản</span>
         <button class="btn btn-gold btn-sm" id="btnExportAdXaExcel">⬇ Xuất Excel xã này</button>
       </div>
@@ -461,6 +515,8 @@
   </div>
   <div class="footer-note">Công cụ tham khảo dựa trên Nghị quyết số 31/2026/NQ-CP ngày 24/6/2026 của Chính phủ. Vui lòng đối chiếu văn bản gốc và số liệu thực tế trước khi ban hành quyết định chính thức.</div>
 </div>
+
+<div id="printSlip" class="print-slip"></div>
 
 <script>
 /* =====================================================================
@@ -646,6 +702,8 @@ document.getElementById('btnTinh').addEventListener('click', ()=>{
 
   document.getElementById('resultEmpty').style.display = 'none';
   document.getElementById('resultFilled').style.display = 'block';
+  const stamp = document.getElementById('stampSeal');
+  stamp.style.animation = 'none'; void stamp.offsetHeight; stamp.style.animation = '';
   document.getElementById('resGt').textContent = fmt(Gt);
   document.getElementById('resGhm').textContent = fmt(ghm)+' đ/năm';
   document.getElementById('resFormulaUsed').textContent = label;
@@ -688,6 +746,32 @@ document.getElementById('btnSave').addEventListener('click', async ()=>{
   loadXaList();
 });
 
+// ---------------- In phiếu tính đơn giá (dùng trình duyệt để in / lưu PDF) ----------------
+document.getElementById('btnPrintSlip').addEventListener('click', ()=>{
+  if(!lastResult){ alert('Vui lòng bấm "Tính đơn giá" trước.'); return; }
+  const r = lastResult;
+  const slip = document.getElementById('printSlip');
+  slip.innerHTML = `
+    <h2>PHIẾU TÍNH ĐƠN GIÁ CHO THUÊ NHÀ, ĐẤT DÔI DƯ</h2>
+    <p class="center">Căn cứ Điều 5 Nghị quyết số 31/2026/NQ-CP ngày 24/6/2026 của Chính phủ</p>
+    <p><b>Xã/phường:</b> ${escapeHtml(session.tenXa)} &nbsp;&nbsp; <b>Ngày tính:</b> ${escapeHtml(r.ngayTinh)}</p>
+    <p><b>Tên/mã tài sản:</b> ${escapeHtml(r.tenTaiSan||'(chưa đặt tên)')} &nbsp;&nbsp; <b>Địa chỉ:</b> ${escapeHtml(r.diaChi||'')}</p>
+    <table>
+      <tr><td>Diện tích đất (Sđất)</td><td>${fmt(r.Sdat)} m²</td><td>Tổng diện tích sàn nhà (Snhà)</td><td>${fmt(r.Snha)} m²</td></tr>
+      <tr><td>Đơn giá thuê đất (Gtđ)</td><td>${fmt(r.Gtd)} đ/m²/năm</td><td>Thời hạn cho thuê (tth)</td><td>${fmt(r.tth)} năm</td></tr>
+      <tr><td>Hệ số chi phí quản lý (k)</td><td>${fmt(r.k)} %</td><td>Trường hợp tính Ghm</td><td>Trường hợp ${r.ghmMode}</td></tr>
+      <tr><td>Giá trị hao mòn hằng năm (Ghm)</td><td>${fmt(r.Ghm)} đ/năm</td><td>Diện tích cho thuê (Sthuê)</td><td>${r.Sthue!==''?fmt(r.Sthue)+' m²':'—'}</td></tr>
+      <tr><td><b>Đơn giá cho thuê nhà (Gt)</b></td><td colspan="3"><b>${fmt(r.Gt)} đồng/m²/năm</b></td></tr>
+      <tr><td>Tiền thuê nhà/năm (Ttn)</td><td>${r.Ttn!==''?fmt(r.Ttn)+' đ':'—'}</td><td>Tiền thuê năm ưu đãi (Ttnưđ)</td><td>${r.Ttnud!==''?fmt(r.Ttnud)+' đ':'—'}</td></tr>
+    </table>
+    <div class="sign-row">
+      <div>Người tính<br><br><br>(Ký, ghi rõ họ tên)</div>
+      <div>Thủ trưởng tổ chức quản lý, kinh doanh nhà<br><br><br>(Ký, ghi rõ họ tên, đóng dấu)</div>
+    </div>
+  `;
+  window.print();
+});
+
 // ---------------- Điều 11: hoàn trả cải tạo ----------------
 document.getElementById('btnTinhHoanTra').addEventListener('click', ()=>{
   const Gct=parseFloat(document.getElementById('inpGct').value);
@@ -712,6 +796,16 @@ function renderXaTable(){
   tbody.innerHTML='';
   document.getElementById('xaCountPill').textContent = xaRows.length+' tài sản';
   document.getElementById('xaEmptyState').style.display = xaRows.length?'none':'block';
+
+  let tongDienTich = 0, tongTien = 0;
+  xaRows.forEach(r=>{
+    tongDienTich += Number(r.Sdat)||0;
+    tongTien += Number(r.Ttn)||0;
+  });
+  document.getElementById('statTongTaiSan').textContent = xaRows.length;
+  document.getElementById('statTongDienTich').textContent = fmt(tongDienTich);
+  document.getElementById('statTongTien').textContent = fmt(tongTien);
+
   xaRows.forEach((r,idx)=>{
     const tr=document.createElement('tr');
     tr.innerHTML = `<td>${idx+1}</td><td>${escapeHtml(r.tenTaiSan)}</td><td>${escapeHtml(r.diaChi)}</td>
@@ -836,6 +930,13 @@ function renderAdDetailTable(){
   tbody.innerHTML='';
   document.getElementById('adDetailCountPill').textContent = adDetailRows.length+' tài sản';
   document.getElementById('adDetailEmptyState').style.display = adDetailRows.length?'none':'block';
+
+  let tongDienTich=0, tongTien=0;
+  adDetailRows.forEach(r=>{ tongDienTich += Number(r.Sdat)||0; tongTien += Number(r.Ttn)||0; });
+  document.getElementById('adStatTongTaiSan').textContent = adDetailRows.length;
+  document.getElementById('adStatTongDienTich').textContent = fmt(tongDienTich);
+  document.getElementById('adStatTongTien').textContent = fmt(tongTien);
+
   adDetailRows.forEach((r,idx)=>{
     const tr=document.createElement('tr');
     tr.innerHTML = `<td>${idx+1}</td><td>${escapeHtml(r.tenTaiSan)}</td><td>${escapeHtml(r.diaChi)}</td>
