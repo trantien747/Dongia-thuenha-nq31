@@ -77,7 +77,7 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:18px;box-shadow:var(--shadow-sm);}
   .card h2{font-size:16px;margin:0 0 4px;color:var(--navy);font-weight:600;}
   .card .sub{font-size:12.5px;color:var(--muted);margin:0 0 18px;}
-  .field{margin-bottom:15px;} .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#3a4250;}
+  .field{margin-bottom:15px;position:relative;} .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#3a4250;min-height:38px;line-height:1.35;padding-right:20px;}
   .field .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4;}
   input[type=text],input[type=password],input[type=number],select{width:100%;padding:10px 13px;border:1.5px solid #e2d8c6;border-radius:9px;font-size:13.5px;background:#fbfbfa;color:var(--ink);font-family:inherit;transition:border-color .15s,background .15s;}
   input:focus,select:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(193,97,63,.16);}
@@ -132,9 +132,9 @@
   .formula-box .ex-hint{display:block;font-family:"Inter",sans-serif;font-size:10px;color:var(--gold);margin-top:5px;font-weight:700;letter-spacing:.02em;}
 
   /* Chú thích chi tiết cho từng ô nhập */
-  .info-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;
-    background:#e7dcc8;color:var(--navy);font-size:10.5px;font-weight:800;border:none;cursor:pointer;margin-left:5px;
-    vertical-align:middle;line-height:1;flex:none;padding:0;}
+  .info-btn{position:absolute;top:0;right:0;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;
+    background:#e7dcc8;color:var(--navy);font-size:10.5px;font-weight:800;border:none;cursor:pointer;
+    line-height:1;flex:none;padding:0;}
   .info-btn:hover{background:var(--gold);color:#fff;}
   .info-panel{margin-top:8px;padding:11px 13px;background:#fbf6ea;border:1px solid var(--gold-light);border-radius:9px;
     font-size:12px;color:#4a3d2c;line-height:1.55;}
@@ -328,14 +328,14 @@
           </div>
 
           <div class="row3">
-            <div class="field"><label>Diện tích đất — S<sub>đất</sub> (m²)<button type="button" class="info-btn" data-key="sdat">ⓘ</button></label><input type="number" step="any" id="inpSdat" placeholder="0"></div>
-            <div class="field"><label>Tổng diện tích sàn nhà — S<sub>nhà</sub> (m²)<button type="button" class="info-btn" data-key="snha">ⓘ</button></label><input type="number" step="any" id="inpSnha" placeholder="0"></div>
-            <div class="field"><label>Thời hạn cho thuê nhà — t<sub>th</sub> (năm)<button type="button" class="info-btn" data-key="tth">ⓘ</button></label><input type="number" step="any" id="inpTth" placeholder="Tối đa 10 năm"><div class="hint">Điều 6: tối đa 10 năm, được gia hạn không khống chế số lần.</div></div>
+            <div class="field"><label>Diện tích đất — S<sub>đất</sub> (m²)</label><button type="button" class="info-btn" data-key="sdat">ⓘ</button><input type="number" step="any" id="inpSdat" placeholder="0"></div>
+            <div class="field"><label>Tổng diện tích sàn nhà — S<sub>nhà</sub> (m²)</label><button type="button" class="info-btn" data-key="snha">ⓘ</button><input type="number" step="any" id="inpSnha" placeholder="0"></div>
+            <div class="field"><label>Thời hạn cho thuê nhà — t<sub>th</sub> (năm)</label><button type="button" class="info-btn" data-key="tth">ⓘ</button><input type="number" step="any" id="inpTth" placeholder="Tối đa 10 năm"><div class="hint">Điều 6: tối đa 10 năm, được gia hạn không khống chế số lần.</div></div>
           </div>
 
           <div class="row2">
-            <div class="field"><label>Đơn giá thuê đất hằng năm — G<sub>tđ</sub> (đồng/m²/năm)<button type="button" class="info-btn" data-key="gtd">ⓘ</button></label><input type="number" step="any" id="inpGtd" placeholder="Theo pháp luật đất đai"></div>
-            <div class="field"><label>Hệ số chi phí quản lý, khai thác — k (%)<button type="button" class="info-btn" data-key="k">ⓘ</button></label><input type="number" step="any" id="inpK" value="10"><div class="hint">Nghị quyết quy định k = 10%.</div></div>
+            <div class="field"><label>Đơn giá thuê đất hằng năm — G<sub>tđ</sub> (đồng/m²/năm)</label><button type="button" class="info-btn" data-key="gtd">ⓘ</button><input type="number" step="any" id="inpGtd" placeholder="Theo pháp luật đất đai"></div>
+            <div class="field"><label>Hệ số chi phí quản lý, khai thác — k (%)</label><button type="button" class="info-btn" data-key="k">ⓘ</button><input type="number" step="any" id="inpK" value="10"><div class="hint">Nghị quyết quy định k = 10%.</div></div>
           </div>
 
           <fieldset>
@@ -346,7 +346,7 @@
                 <span><span class="case-chip">TH1</span> Thời gian sử dụng để tính hao mòn còn lại ≥ thời hạn cho thuê nhà</span>
               </label>
               <div class="formula-mini" data-ex="th1">Nhập trực tiếp mức hao mòn hằng năm của nhà, công trình gắn liền với đất.<span class="ex-hint">▸ Xem ví dụ</span></div>
-              <div class="subinputs"><div class="field"><label>Mức hao mòn hằng năm (đồng/năm)<button type="button" class="info-btn" data-key="haomon1">ⓘ</button></label><input type="number" step="any" id="inpHaomon1"></div></div>
+              <div class="subinputs"><div class="field"><label>Mức hao mòn hằng năm (đồng/năm)</label><button type="button" class="info-btn" data-key="haomon1">ⓘ</button><input type="number" step="any" id="inpHaomon1"></div></div>
             </div>
 
             <div class="radio-card case-2" data-mode="2">
@@ -354,7 +354,7 @@
                 <span><span class="case-chip">TH2</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại &gt; 10% nguyên giá</span>
               </label>
               <div class="formula-mini" data-ex="th2">G<sub>hm</sub> = Giá trị còn lại trên sổ kế toán ÷ Thời hạn cho thuê nhà<span class="ex-hint">▸ Xem ví dụ</span></div>
-              <div class="subinputs"><div class="field"><label>Giá trị còn lại trên sổ kế toán (đồng)<button type="button" class="info-btn" data-key="giatriconlai2">ⓘ</button></label><input type="number" step="any" id="inpGiatriconlai2"></div></div>
+              <div class="subinputs"><div class="field"><label>Giá trị còn lại trên sổ kế toán (đồng)</label><button type="button" class="info-btn" data-key="giatriconlai2">ⓘ</button><input type="number" step="any" id="inpGiatriconlai2"></div></div>
             </div>
 
             <div class="radio-card case-3" data-mode="3">
@@ -362,7 +362,7 @@
                 <span><span class="case-chip">TH3</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại ≤ 10% nguyên giá</span>
               </label>
               <div class="formula-mini" data-ex="th3">G<sub>hm</sub> = (Nguyên giá trên sổ kế toán × 10%) ÷ Thời hạn cho thuê nhà<span class="ex-hint">▸ Xem ví dụ</span></div>
-              <div class="subinputs"><div class="field"><label>Nguyên giá trên sổ kế toán (đồng)<button type="button" class="info-btn" data-key="nguyengia3">ⓘ</button></label><input type="number" step="any" id="inpNguyengia3"></div></div>
+              <div class="subinputs"><div class="field"><label>Nguyên giá trên sổ kế toán (đồng)</label><button type="button" class="info-btn" data-key="nguyengia3">ⓘ</button><input type="number" step="any" id="inpNguyengia3"></div></div>
             </div>
 
             <div class="note" style="margin-top:6px;"><b>Lưu ý:</b> Nếu nhà, công trình gắn liền với đất chưa được theo dõi trên sổ kế toán, việc xác định nguyên giá, mức hao mòn, giá trị còn lại thực hiện theo hướng dẫn của Bộ Tài chính về quản lý, tính hao mòn, khấu hao tài sản cố định (khoản 1 Điều 5).</div>
@@ -370,12 +370,12 @@
 
           <fieldset>
             <legend>Tính tổng tiền thuê &amp; ưu đãi (tuỳ chọn)</legend>
-            <div class="field"><label>Diện tích nhà cho thuê thực tế — S<sub>thuê</sub> (m²)<button type="button" class="info-btn" data-key="sthue">ⓘ</button></label><input type="number" step="any" id="inpSthue"><div class="hint">Để trống nếu chỉ cần đơn giá G<sub>t</sub> (đồng/m²/năm).</div></div>
+            <div class="field"><label>Diện tích nhà cho thuê thực tế — S<sub>thuê</sub> (m²)</label><button type="button" class="info-btn" data-key="sthue">ⓘ</button><input type="number" step="any" id="inpSthue"><div class="hint">Để trống nếu chỉ cần đơn giá G<sub>t</sub> (đồng/m²/năm).</div></div>
             <label class="checkbox-line"><input type="checkbox" id="chkUuDai"> Người thuê thuộc đối tượng được Chính phủ giảm tiền thuê đất trong năm hưởng ưu đãi (khoản 5 Điều 5)</label>
             <div id="uudaiInputs" style="display:none;">
               <div class="row2">
-                <div class="field"><label>Mức giảm tiền thuê đất theo quy định của Chính phủ — k<sub>tđ</sub> (%)<button type="button" class="info-btn" data-key="ktd">ⓘ</button></label><input type="number" step="any" id="inpKtd"></div>
-                <div class="field"><label>Diện tích nhà thuê của đối tượng được giảm — S<sub>thuê(ưđ)</sub> (m²)<button type="button" class="info-btn" data-key="sthueuudai">ⓘ</button></label><input type="number" step="any" id="inpSthueUuDai"></div>
+                <div class="field"><label>Mức giảm tiền thuê đất theo quy định của Chính phủ — k<sub>tđ</sub> (%)</label><button type="button" class="info-btn" data-key="ktd">ⓘ</button><input type="number" step="any" id="inpKtd"></div>
+                <div class="field"><label>Diện tích nhà thuê của đối tượng được giảm — S<sub>thuê(ưđ)</sub> (m²)</label><button type="button" class="info-btn" data-key="sthueuudai">ⓘ</button><input type="number" step="any" id="inpSthueUuDai"></div>
               </div>
             </div>
           </fieldset>
@@ -431,11 +431,11 @@
         <h2>Tính số tiền hoàn trả chi phí cải tạo, sửa chữa (Điều 11)</h2>
         <p class="sub">Áp dụng khi tổ chức quản lý, kinh doanh nhà đơn phương chấm dứt Hợp đồng thuê nhà trước hạn, phải hoàn trả chi phí cải tạo, sửa chữa cho phần thời gian chưa sử dụng.</p>
         <div class="row2">
-          <div class="field"><label>Chi phí cải tạo, sửa chữa theo hóa đơn, chứng từ hợp pháp — G<sub>ct</sub> (đồng)<button type="button" class="info-btn" data-key="gct">ⓘ</button></label><input type="number" step="any" id="inpGct"></div>
+          <div class="field"><label>Chi phí cải tạo, sửa chữa theo hóa đơn, chứng từ hợp pháp — G<sub>ct</sub> (đồng)</label><button type="button" class="info-btn" data-key="gct">ⓘ</button><input type="number" step="any" id="inpGct"></div>
           <div class="field"><label>Thời hạn cho thuê nhà theo Hợp đồng — t<sub>th</sub> (năm)</label><input type="number" step="any" id="inpTth2"></div>
         </div>
         <div class="field">
-          <label>Thời gian thuê nhà còn lại — t<sub>cl</sub> (năm, có thể lẻ)<button type="button" class="info-btn" data-key="tcl">ⓘ</button></label>
+          <label>Thời gian thuê nhà còn lại — t<sub>cl</sub> (năm, có thể lẻ)</label><button type="button" class="info-btn" data-key="tcl">ⓘ</button>
           <input type="number" step="any" id="inpTcl">
           <div class="hint">Nếu không tròn năm: tính theo tháng, phần lẻ ≥15 ngày làm tròn lên 1 tháng, &lt;15 ngày bỏ. VD: 2 năm 7 tháng → 2.583 năm.</div>
         </div>
