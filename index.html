@@ -160,6 +160,13 @@
     background:#f7f3ea;border:1.5px dashed var(--gold);border-radius:20px;padding:7px 14px;cursor:pointer;}
   .sample-fill-btn:hover{background:#fbf6ea;border-style:solid;}
 
+  /* Danh sách hạng mục nhà, công trình */
+  .hm-row{border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:12px;background:#fbfbf8;}
+  .hm-row select{width:100%;padding:9px 10px;border:1.5px solid #e2d8c6;border-radius:9px;font-size:12.5px;background:#fbfbfa;color:var(--ink);font-family:inherit;}
+  .hm-row select:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(193,97,63,.16);}
+  .hm-value-wrap{margin-top:2px;}
+  .hm-ghm-preview{font-size:12px;color:var(--ok);font-weight:700;}
+
   /* Con dấu "Đã tính toán" trên phiếu */
   .stamp-seal{position:absolute;top:14px;right:18px;width:74px;height:74px;border-radius:50%;
     border:2.5px solid #b3261e;color:#b3261e;display:flex;align-items:center;justify-content:center;
@@ -272,7 +279,7 @@
     <div class="login-grid" id="loginXaBlock">
       <div class="login-card">
         <h3>Đăng nhập theo xã/phường</h3>
-        <p class="sub">Nhập đúng tên xã/phường của bạn và nhập mật khẩu mặc định là Daklak@2026.</p>
+        <p class="sub">Nhập đúng tên xã/phường của bạn và mật khẩu được cấp.</p>
         <div class="field">
           <label>Tên xã/phường</label>
           <input type="text" id="loginTenXa" placeholder="VD: Krông Búk">
@@ -329,7 +336,7 @@
 
           <div class="row3">
             <div class="field"><label>Diện tích đất — S<sub>đất</sub> (m²)</label><button type="button" class="info-btn" data-key="sdat">ⓘ</button><input type="number" step="any" id="inpSdat" placeholder="0"></div>
-            <div class="field"><label>Tổng diện tích sàn nhà — S<sub>nhà</sub> (m²)</label><button type="button" class="info-btn" data-key="snha">ⓘ</button><input type="number" step="any" id="inpSnha" placeholder="0"></div>
+            <div class="field"><label>Tổng diện tích sàn nhà — S<sub>nhà</sub> (m²)</label><button type="button" class="info-btn" data-key="snha">ⓘ</button><input type="number" step="any" id="inpSnha" placeholder="0" readonly style="background:#f0ece0;"><div class="hint">Tự động cộng từ diện tích các hạng mục nhà bên dưới.</div></div>
             <div class="field"><label>Thời hạn cho thuê nhà — t<sub>th</sub> (năm)</label><button type="button" class="info-btn" data-key="tth">ⓘ</button><input type="number" step="any" id="inpTth" placeholder="Tối đa 10 năm"><div class="hint">Điều 6: tối đa 10 năm, được gia hạn không khống chế số lần.</div></div>
           </div>
 
@@ -339,33 +346,33 @@
           </div>
 
           <fieldset>
-            <legend>Cách xác định giá trị hao mòn hằng năm — G<sub>hm</sub> (chọn đúng 1 trường hợp)</legend>
+            <legend>Tham khảo: 3 trường hợp tính giá trị hao mòn — G<sub>hm</sub></legend>
+            <p class="sub" style="margin-bottom:10px;">Mỗi hạng mục nhà, công trình áp dụng đúng 1 trong 3 trường hợp dưới đây tuỳ tình trạng của hạng mục đó — xem chi tiết bên dưới trong danh sách hạng mục.</p>
 
-            <div class="radio-card case-1 selected" data-mode="1">
-              <label><input type="radio" name="ghmMode" value="1" checked>
-                <span><span class="case-chip">TH1</span> Thời gian sử dụng để tính hao mòn còn lại ≥ thời hạn cho thuê nhà</span>
-              </label>
+            <div class="radio-card case-1" style="cursor:default;">
+              <label style="cursor:default;"><span class="case-chip">TH1</span> Thời gian sử dụng để tính hao mòn còn lại ≥ thời hạn cho thuê nhà</label>
               <div class="formula-mini" data-ex="th1">Nhập trực tiếp mức hao mòn hằng năm của nhà, công trình gắn liền với đất.<span class="ex-hint">▸ Xem ví dụ</span></div>
-              <div class="subinputs"><div class="field"><label>Mức hao mòn hằng năm (đồng/năm)</label><button type="button" class="info-btn" data-key="haomon1">ⓘ</button><input type="number" step="any" id="inpHaomon1"></div></div>
             </div>
-
-            <div class="radio-card case-2" data-mode="2">
-              <label><input type="radio" name="ghmMode" value="2">
-                <span><span class="case-chip">TH2</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại &gt; 10% nguyên giá</span>
-              </label>
+            <div class="radio-card case-2" style="cursor:default;">
+              <label style="cursor:default;"><span class="case-chip">TH2</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại &gt; 10% nguyên giá</label>
               <div class="formula-mini" data-ex="th2">G<sub>hm</sub> = Giá trị còn lại trên sổ kế toán ÷ Thời hạn cho thuê nhà<span class="ex-hint">▸ Xem ví dụ</span></div>
-              <div class="subinputs"><div class="field"><label>Giá trị còn lại trên sổ kế toán (đồng)</label><button type="button" class="info-btn" data-key="giatriconlai2">ⓘ</button><input type="number" step="any" id="inpGiatriconlai2"></div></div>
             </div>
-
-            <div class="radio-card case-3" data-mode="3">
-              <label><input type="radio" name="ghmMode" value="3">
-                <span><span class="case-chip">TH3</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại ≤ 10% nguyên giá</span>
-              </label>
+            <div class="radio-card case-3" style="cursor:default;">
+              <label style="cursor:default;"><span class="case-chip">TH3</span> Thời gian sử dụng để tính hao mòn còn lại &lt; thời hạn cho thuê nhà, và giá trị còn lại ≤ 10% nguyên giá</label>
               <div class="formula-mini" data-ex="th3">G<sub>hm</sub> = (Nguyên giá trên sổ kế toán × 10%) ÷ Thời hạn cho thuê nhà<span class="ex-hint">▸ Xem ví dụ</span></div>
-              <div class="subinputs"><div class="field"><label>Nguyên giá trên sổ kế toán (đồng)</label><button type="button" class="info-btn" data-key="nguyengia3">ⓘ</button><input type="number" step="any" id="inpNguyengia3"></div></div>
             </div>
-
             <div class="note" style="margin-top:6px;"><b>Lưu ý:</b> Nếu nhà, công trình gắn liền với đất chưa được theo dõi trên sổ kế toán, việc xác định nguyên giá, mức hao mòn, giá trị còn lại thực hiện theo hướng dẫn của Bộ Tài chính về quản lý, tính hao mòn, khấu hao tài sản cố định (khoản 1 Điều 5).</div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Danh sách hạng mục nhà, công trình trên cơ sở đất này</legend>
+            <p class="sub" style="margin-bottom:12px;">Một cơ sở nhà, đất thường có nhiều hạng mục (nhà làm việc, nhà phụ trợ, nhà bảo vệ...), mỗi hạng mục có thể rơi vào trường hợp Ghm khác nhau. Thêm từng hạng mục — công cụ tự cộng dồn diện tích và Ghm.</p>
+            <div id="hangMucList"></div>
+            <button type="button" class="btn btn-outline btn-sm" id="btnAddHangMuc">+ Thêm hạng mục nhà</button>
+            <div class="note" style="margin-top:12px;">
+              Tổng diện tích sàn các hạng mục: <b id="tongSnhaHangMuc">0</b> m² &nbsp;·&nbsp;
+              Tổng giá trị hao mòn hằng năm (G<sub>hm</sub>): <b id="tongGhmHangMuc">0</b> đồng/năm
+            </div>
           </fieldset>
 
           <fieldset>
@@ -734,18 +741,21 @@ document.addEventListener('click', (e)=>{
 
 // ---------------- Nút điền sẵn 1 tài sản mẫu để xem trọn quy trình ----------------
 document.getElementById('btnFillSample').addEventListener('click', ()=>{
-  document.getElementById('inpTenTS').value = 'Trụ sở cũ UBND — mẫu minh hoạ';
-  document.getElementById('inpDiaChi').value = 'Thôn 1, xã Krông Búk';
-  document.getElementById('inpSdat').value = 200;
-  document.getElementById('inpSnha').value = 150;
+  document.getElementById('inpTenTS').value = 'Trụ sở nhà, đất Kho bạc Nhà nước Krông Búk — ví dụ minh hoạ';
+  document.getElementById('inpDiaChi').value = 'Thửa 114, tờ bản đồ số 39, xã Krông Búk';
+  document.getElementById('inpSdat').value = 3519;
   document.getElementById('inpTth').value = 5;
   document.getElementById('inpGtd').value = 500000;
   document.getElementById('inpK').value = 10;
-  document.querySelector('input[name=ghmMode][value="1"]').checked = true;
-  document.querySelectorAll('.radio-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelector('.radio-card[data-mode="1"]').classList.add('selected');
-  document.getElementById('inpHaomon1').value = 20000000;
-  document.getElementById('inpSthue').value = 150;
+
+  document.getElementById('hangMucList').innerHTML = '';
+  createHangMucRow({ ten:'Nhà làm việc, cấp III', dienTich:815, mode:'2', giaTri:4681793178 });
+  createHangMucRow({ ten:'Nhà phụ trợ, cấp IV', dienTich:196.5, mode:'2', giaTri:518352790 });
+  createHangMucRow({ ten:'Nhà bảo vệ, cấp IV', dienTich:16, mode:'2', giaTri:51704512 });
+  createHangMucRow({ ten:'Nhà để máy phát điện, cấp IV', dienTich:10.5, mode:'2', giaTri:27086569 });
+  const totals = recalcHangMuc();
+  document.getElementById('inpSthue').value = totals.tongDienTich;
+
   document.getElementById('btnTinh').scrollIntoView({behavior:'smooth', block:'center'});
   document.getElementById('btnTinh').click();
 });
@@ -842,14 +852,105 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   });
 });
 
-// ---------------- Ghm mode UI ----------------
-document.querySelectorAll('.radio-card').forEach(card=>{
-  card.addEventListener('click', ()=>{
-    document.querySelectorAll('.radio-card').forEach(c=>c.classList.remove('selected'));
-    card.classList.add('selected');
-    card.querySelector('input[type=radio]').checked = true;
+// ---------------- Danh sách hạng mục nhà, công trình (nhiều hạng mục / 1 cơ sở đất) ----------------
+const HM_MODE_LABELS = {
+  '1': 'Mức hao mòn hằng năm (đồng/năm)',
+  '2': 'Giá trị còn lại trên sổ kế toán (đồng)',
+  '3': 'Nguyên giá trên sổ kế toán (đồng)'
+};
+let hmCounter = 0;
+
+function createHangMucRow(prefill){
+  hmCounter++;
+  const id = 'hm'+hmCounter;
+  const div = document.createElement('div');
+  div.className = 'hm-row';
+  div.dataset.id = id;
+  div.innerHTML = `
+    <div class="row3">
+      <div class="field"><label>Tên hạng mục</label><input type="text" class="hm-ten" placeholder="VD: Nhà làm việc cấp III"></div>
+      <div class="field"><label>Diện tích sàn (m²)</label><input type="number" step="any" class="hm-dientich" placeholder="0"></div>
+      <div class="field"><label>Trường hợp tính G<sub>hm</sub></label>
+        <select class="hm-mode">
+          <option value="1">TH1 — hao mòn còn lại ≥ tth</option>
+          <option value="2">TH2 — còn lại &lt; tth, GTCL &gt; 10%NG</option>
+          <option value="3">TH3 — còn lại &lt; tth, GTCL ≤ 10%NG</option>
+        </select>
+      </div>
+    </div>
+    <div class="field hm-value-wrap">
+      <label class="hm-value-label">Mức hao mòn hằng năm (đồng/năm)</label>
+      <input type="number" step="any" class="hm-value" placeholder="0">
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span class="hm-ghm-preview"></span>
+      <button type="button" class="btn btn-danger btn-sm hm-remove">✕ Xoá hạng mục</button>
+    </div>`;
+  document.getElementById('hangMucList').appendChild(div);
+  if(prefill){
+    div.querySelector('.hm-ten').value = prefill.ten||'';
+    div.querySelector('.hm-dientich').value = prefill.dienTich||'';
+    div.querySelector('.hm-mode').value = prefill.mode||'1';
+    div.querySelector('.hm-value').value = prefill.giaTri||'';
+    div.querySelector('.hm-value-label').textContent = HM_MODE_LABELS[prefill.mode||'1'];
+  }
+  return div;
+}
+
+function computeGhmForMode(mode, value, tth){
+  if(isNaN(value)||isNaN(tth)||tth===0) return NaN;
+  if(mode==='1') return value;
+  if(mode==='2') return value/tth;
+  if(mode==='3') return (value*0.10)/tth;
+  return NaN;
+}
+
+function getHangMucData(){
+  const tth = parseFloat(document.getElementById('inpTth').value);
+  return [...document.querySelectorAll('#hangMucList .hm-row')].map(row=>{
+    const ten = row.querySelector('.hm-ten').value.trim();
+    const dienTich = parseFloat(row.querySelector('.hm-dientich').value);
+    const mode = row.querySelector('.hm-mode').value;
+    const giaTri = parseFloat(row.querySelector('.hm-value').value);
+    return { ten, dienTich, mode, giaTri, ghm: computeGhmForMode(mode, giaTri, tth), row };
   });
+}
+
+function recalcHangMuc(){
+  const data = getHangMucData();
+  let tongDienTich = 0, tongGhm = 0, anyInvalid = data.length===0;
+  data.forEach(d=>{
+    if(!isNaN(d.dienTich)) tongDienTich += d.dienTich;
+    if(!isNaN(d.ghm)) tongGhm += d.ghm; else anyInvalid = true;
+    d.row.querySelector('.hm-ghm-preview').textContent = isNaN(d.ghm) ? '' : ('Ghm hạng mục = '+fmt(d.ghm)+' đ/năm');
+  });
+  document.getElementById('tongSnhaHangMuc').textContent = fmt(tongDienTich);
+  document.getElementById('tongGhmHangMuc').textContent = fmt(tongGhm);
+  document.getElementById('inpSnha').value = tongDienTich || '';
+  return { tongDienTich, tongGhm, data, anyInvalid };
+}
+
+document.getElementById('btnAddHangMuc').addEventListener('click', ()=>{ createHangMucRow(); });
+
+document.addEventListener('input', (e)=>{ if(e.target.closest('#hangMucList')) recalcHangMuc(); });
+document.addEventListener('change', (e)=>{
+  if(e.target.classList.contains('hm-mode')){
+    e.target.closest('.hm-row').querySelector('.hm-value-label').textContent = HM_MODE_LABELS[e.target.value];
+    recalcHangMuc();
+  }
 });
+document.addEventListener('click', (e)=>{
+  const rem = e.target.closest('.hm-remove');
+  if(!rem) return;
+  const rows = document.querySelectorAll('#hangMucList .hm-row');
+  if(rows.length<=1){ alert('Phải có ít nhất 1 hạng mục nhà.'); return; }
+  rem.closest('.hm-row').remove();
+  recalcHangMuc();
+});
+
+createHangMucRow(); // bắt đầu với 1 hạng mục trống
+
+// ---------------- Ưu đãi checkbox ----------------
 document.getElementById('chkUuDai').addEventListener('change', function(){
   document.getElementById('uudaiInputs').style.display = this.checked ? 'block':'none';
 });
@@ -857,29 +958,21 @@ document.getElementById('chkUuDai').addEventListener('change', function(){
 // ---------------- TÍNH TOÁN (Điều 5) ----------------
 let lastResult = null;
 
-function computeGhm(){
-  const mode = document.querySelector('input[name=ghmMode]:checked').value;
-  const tth = parseFloat(document.getElementById('inpTth').value);
-  let ghm=null, label='';
-  if(mode==='1'){ ghm = parseFloat(document.getElementById('inpHaomon1').value); label='TH1: Nhập trực tiếp mức hao mòn hằng năm'; }
-  else if(mode==='2'){ const g = parseFloat(document.getElementById('inpGiatriconlai2').value); ghm=(isNaN(g)||isNaN(tth)||tth===0)?NaN:g/tth; label='TH2: Giá trị còn lại / thời hạn thuê'; }
-  else if(mode==='3'){ const ng = parseFloat(document.getElementById('inpNguyengia3').value); ghm=(isNaN(ng)||isNaN(tth)||tth===0)?NaN:(ng*0.10)/tth; label='TH3: (Nguyên giá × 10%) / thời hạn thuê'; }
-  return { ghm, label, mode };
-}
-
 document.getElementById('btnTinh').addEventListener('click', ()=>{
   const Sdat=parseFloat(document.getElementById('inpSdat').value);
-  const Snha=parseFloat(document.getElementById('inpSnha').value);
   const Gtd=parseFloat(document.getElementById('inpGtd').value);
   const k=parseFloat(document.getElementById('inpK').value);
   const tth=parseFloat(document.getElementById('inpTth').value);
   const Sthue=parseFloat(document.getElementById('inpSthue').value);
-  const {ghm,label,mode}=computeGhm();
 
-  if(isNaN(Snha)||Snha===0||isNaN(Sdat)||isNaN(Gtd)||isNaN(k)||isNaN(ghm)){
-    alert('Vui lòng nhập đầy đủ và hợp lệ: Sđất, Snhà (khác 0), Gtđ, k, và số liệu của trường hợp Ghm đã chọn.');
+  const { tongDienTich, tongGhm, data, anyInvalid } = recalcHangMuc();
+  const Snha = tongDienTich;
+
+  if(isNaN(Snha)||Snha===0||isNaN(Sdat)||isNaN(Gtd)||isNaN(k)||isNaN(tth)||tth===0||anyInvalid){
+    alert('Vui lòng nhập đầy đủ và hợp lệ: Sđất, Gtđ, k, thời hạn thuê, và đầy đủ diện tích + giá trị của TỪNG hạng mục nhà trong danh sách bên dưới.');
     return;
   }
+  const ghm = tongGhm;
   const Gt = (ghm + Gtd*Sdat)/Snha*(1+k/100);
   let Ttn=null, Ttnud=null;
   if(!isNaN(Sthue)) Ttn = Gt*Sthue;
@@ -891,12 +984,14 @@ document.getElementById('btnTinh').addEventListener('click', ()=>{
     }
   }
 
+  const label = data.map(d=>(d.ten||'(chưa đặt tên)')+': TH'+d.mode).join('; ');
+
   document.getElementById('resultEmpty').style.display = 'none';
   document.getElementById('resultFilled').style.display = 'block';
   const stamp = document.getElementById('stampSeal');
   stamp.style.animation = 'none'; void stamp.offsetHeight; stamp.style.animation = '';
   document.getElementById('resGt').textContent = fmt(Gt);
-  document.getElementById('resGhm').textContent = fmt(ghm)+' đ/năm';
+  document.getElementById('resGhm').textContent = fmt(ghm)+' đ/năm ('+data.length+' hạng mục)';
   document.getElementById('resFormulaUsed').textContent = label;
   document.getElementById('resTtn').textContent = Ttn!==null ? fmt(Ttn)+' đ' : '—';
   document.getElementById('resTtnud').textContent = Ttnud!==null ? fmt(Ttnud)+' đ' : '—';
@@ -904,22 +999,26 @@ document.getElementById('btnTinh').addEventListener('click', ()=>{
   lastResult = {
     tenTaiSan: document.getElementById('inpTenTS').value.trim(),
     diaChi: document.getElementById('inpDiaChi').value.trim(),
-    Sdat, Snha, Gtd, tth, k, ghmMode: mode, Ghm: ghm, Gt,
+    Sdat, Snha, Gtd, tth, k, ghmMode: label, Ghm: ghm, Gt,
     Sthue: isNaN(Sthue)?'':Sthue, Ttn: Ttn===null?'':Ttn,
     uuDai: document.getElementById('chkUuDai').checked ? 'Có':'Không',
     ktd: document.getElementById('inpKtd').value || '',
     SthueUuDai: document.getElementById('inpSthueUuDai').value || '',
     Ttnud: Ttnud===null?'':Ttnud,
-    ngayTinh: new Date().toLocaleString('vi-VN')
+    ngayTinh: new Date().toLocaleString('vi-VN'),
+    ghmChiTiet: JSON.stringify(data.map(d=>({ten:d.ten, dienTich:d.dienTich, mode:d.mode, giaTri:d.giaTri, ghm:d.ghm})))
   };
 });
 
 document.getElementById('btnClearForm').addEventListener('click', ()=>{
-  ['inpTenTS','inpDiaChi','inpSdat','inpSnha','inpTth','inpGtd','inpHaomon1','inpGiatriconlai2','inpNguyengia3','inpSthue','inpKtd','inpSthueUuDai']
-    .forEach(id=>document.getElementById(id).value='');
+  ['inpTenTS','inpDiaChi','inpSdat','inpTth','inpGtd','inpSthue','inpKtd','inpSthueUuDai'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('inpK').value=10;
+  document.getElementById('inpSnha').value='';
   document.getElementById('chkUuDai').checked=false;
   document.getElementById('uudaiInputs').style.display='none';
+  document.getElementById('hangMucList').innerHTML='';
+  createHangMucRow();
+  recalcHangMuc();
   document.getElementById('resultFilled').style.display='none';
   document.getElementById('resultEmpty').style.display='block';
   document.getElementById('resGt').textContent='—'; document.getElementById('resGhm').textContent='—';
@@ -942,16 +1041,26 @@ document.getElementById('btnPrintSlip').addEventListener('click', ()=>{
   if(!lastResult){ alert('Vui lòng bấm "Tính đơn giá" trước.'); return; }
   const r = lastResult;
   const slip = document.getElementById('printSlip');
+  let hangMucRows = '';
+  try{
+    const list = JSON.parse(r.ghmChiTiet || '[]');
+    hangMucRows = list.map((d,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(d.ten||'')}</td><td>${fmt(d.dienTich)} m²</td><td>TH${d.mode}</td><td>${fmt(d.giaTri)} đ</td><td>${fmt(d.ghm)} đ/năm</td></tr>`).join('');
+  }catch(e){}
   slip.innerHTML = `
     <h2>PHIẾU TÍNH ĐƠN GIÁ CHO THUÊ NHÀ, ĐẤT DÔI DƯ</h2>
     <p class="center">Căn cứ Điều 5 Nghị quyết số 31/2026/NQ-CP ngày 24/6/2026 của Chính phủ</p>
     <p><b>Xã/phường:</b> ${escapeHtml(session.tenXa)} &nbsp;&nbsp; <b>Ngày tính:</b> ${escapeHtml(r.ngayTinh)}</p>
     <p><b>Tên/mã tài sản:</b> ${escapeHtml(r.tenTaiSan||'(chưa đặt tên)')} &nbsp;&nbsp; <b>Địa chỉ:</b> ${escapeHtml(r.diaChi||'')}</p>
+    ${hangMucRows ? `<p style="margin-bottom:4px;"><b>Chi tiết các hạng mục nhà, công trình:</b></p>
     <table>
+      <tr><td><b>#</b></td><td><b>Tên hạng mục</b></td><td><b>Diện tích sàn</b></td><td><b>TH</b></td><td><b>Giá trị (theo TH)</b></td><td><b>Ghm hạng mục</b></td></tr>
+      ${hangMucRows}
+    </table>` : ''}
+    <table style="margin-top:14px;">
       <tr><td>Diện tích đất (Sđất)</td><td>${fmt(r.Sdat)} m²</td><td>Tổng diện tích sàn nhà (Snhà)</td><td>${fmt(r.Snha)} m²</td></tr>
       <tr><td>Đơn giá thuê đất (Gtđ)</td><td>${fmt(r.Gtd)} đ/m²/năm</td><td>Thời hạn cho thuê (tth)</td><td>${fmt(r.tth)} năm</td></tr>
-      <tr><td>Hệ số chi phí quản lý (k)</td><td>${fmt(r.k)} %</td><td>Trường hợp tính Ghm</td><td>Trường hợp ${r.ghmMode}</td></tr>
-      <tr><td>Giá trị hao mòn hằng năm (Ghm)</td><td>${fmt(r.Ghm)} đ/năm</td><td>Diện tích cho thuê (Sthuê)</td><td>${r.Sthue!==''?fmt(r.Sthue)+' m²':'—'}</td></tr>
+      <tr><td>Hệ số chi phí quản lý (k)</td><td>${fmt(r.k)} %</td><td>Diện tích cho thuê (Sthuê)</td><td>${r.Sthue!==''?fmt(r.Sthue)+' m²':'—'}</td></tr>
+      <tr><td>Tổng giá trị hao mòn hằng năm (Ghm)</td><td colspan="3">${fmt(r.Ghm)} đồng/năm</td></tr>
       <tr><td><b>Đơn giá cho thuê nhà (Gt)</b></td><td colspan="3"><b>${fmt(r.Gt)} đồng/m²/năm</b></td></tr>
       <tr><td>Tiền thuê nhà/năm (Ttn)</td><td>${r.Ttn!==''?fmt(r.Ttn)+' đ':'—'}</td><td>Tiền thuê năm ưu đãi (Ttnưđ)</td><td>${r.Ttnud!==''?fmt(r.Ttnud)+' đ':'—'}</td></tr>
     </table>
@@ -1001,7 +1110,7 @@ function renderXaTable(){
     const tr=document.createElement('tr');
     tr.innerHTML = `<td>${idx+1}</td><td>${escapeHtml(r.tenTaiSan)}</td><td>${escapeHtml(r.diaChi)}</td>
       <td>${fmt(r.Sdat)}</td><td>${fmt(r.Snha)}</td><td>${fmt(r.Gtd)}</td><td>${fmt(r.tth)}</td><td>${fmt(r.k)}</td>
-      <td>TH${r.ghmMode}</td><td>${fmt(r.Ghm)}</td><td><b>${fmt(r.Gt)}</b></td><td>${fmt(r.Sthue)}</td>
+      <td>${escapeHtml(r.ghmMode)}</td><td>${fmt(r.Ghm)}</td><td><b>${fmt(r.Gt)}</b></td><td>${fmt(r.Sthue)}</td>
       <td>${fmt(r.Ttn)}</td><td>${fmt(r.Ttnud)}</td><td>${escapeHtml(r.ngayTinh)}</td>
       <td><button class="btn btn-danger" data-id="${r.id}">Xoá</button></td>`;
     tbody.appendChild(tr);
@@ -1020,10 +1129,17 @@ function renderXaTable(){
 document.getElementById('btnReloadXaList').addEventListener('click', loadXaList);
 
 const EXPORT_HEADERS = ['#','Tên/mã tài sản','Địa chỉ','Sđất (m²)','Snhà (m²)','Gtđ (đ/m²/năm)','Thời hạn thuê (năm)',
-  'k (%)','Trường hợp tính Ghm','Ghm (đ/năm)','Gt - Đơn giá (đ/m²/năm)','Sthuê (m²)','Ttn (đ/năm)','Có ưu đãi?','ktđ (%)','Sthuê ưu đãi (m²)','Ttnưđ (đ)','Ngày tính'];
+  'k (%)','Trường hợp tính Ghm','Ghm (đ/năm)','Gt - Đơn giá (đ/m²/năm)','Sthuê (m²)','Ttn (đ/năm)','Có ưu đãi?','ktđ (%)','Sthuê ưu đãi (m²)','Ttnưđ (đ)','Ngày tính','Chi tiết hạng mục nhà'];
+function formatHangMucText(ghmChiTietRaw){
+  try{
+    const list = JSON.parse(ghmChiTietRaw || '[]');
+    if(!list.length) return '';
+    return list.map(d=>`${d.ten||'?'} (${fmt(d.dienTich)}m², TH${d.mode}, ${fmt(d.giaTri)}đ → Ghm ${fmt(d.ghm)}đ/năm)`).join(' | ');
+  }catch(e){ return ''; }
+}
 function rowsToAoa(rows){
-  return rows.map((r,idx)=>[idx+1, r.tenTaiSan, r.diaChi, r.Sdat, r.Snha, r.Gtd, r.tth, r.k, 'Trường hợp '+r.ghmMode,
-    r.Ghm, r.Gt, r.Sthue, r.Ttn, r.uuDai, r.ktd, r.SthueUuDai, r.Ttnud, r.ngayTinh]);
+  return rows.map((r,idx)=>[idx+1, r.tenTaiSan, r.diaChi, r.Sdat, r.Snha, r.Gtd, r.tth, r.k, r.ghmMode,
+    r.Ghm, r.Gt, r.Sthue, r.Ttn, r.uuDai, r.ktd, r.SthueUuDai, r.Ttnud, r.ngayTinh, formatHangMucText(r.ghmChiTiet)]);
 }
 document.getElementById('btnExportXaExcel').addEventListener('click', ()=>{
   if(!xaRows.length){ alert('Chưa có dữ liệu để xuất.'); return; }
@@ -1132,7 +1248,7 @@ function renderAdDetailTable(){
     const tr=document.createElement('tr');
     tr.innerHTML = `<td>${idx+1}</td><td>${escapeHtml(r.tenTaiSan)}</td><td>${escapeHtml(r.diaChi)}</td>
       <td>${fmt(r.Sdat)}</td><td>${fmt(r.Snha)}</td><td>${fmt(r.Gtd)}</td><td>${fmt(r.tth)}</td><td>${fmt(r.k)}</td>
-      <td>TH${r.ghmMode}</td><td>${fmt(r.Ghm)}</td><td><b>${fmt(r.Gt)}</b></td><td>${fmt(r.Sthue)}</td>
+      <td>${escapeHtml(r.ghmMode)}</td><td>${fmt(r.Ghm)}</td><td><b>${fmt(r.Gt)}</b></td><td>${fmt(r.Sthue)}</td>
       <td>${fmt(r.Ttn)}</td><td>${fmt(r.Ttnud)}</td><td>${escapeHtml(r.ngayTinh)}</td>
       <td><button class="btn btn-danger" data-id="${r.id}">Xoá</button></td>`;
     tbody.appendChild(tr);
