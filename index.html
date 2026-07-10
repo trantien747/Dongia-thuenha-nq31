@@ -279,14 +279,14 @@
     <div class="login-grid" id="loginXaBlock">
       <div class="login-card">
         <h3>Đăng nhập theo xã/phường</h3>
-        <p class="sub">Nhập đúng tên xã/phường của bạn, Mật khẩu mặc định là Daklak@2026.</p>
+        <p class="sub">Nhập đúng tên xã/phường của bạn và mật khẩu được cấp.</p>
         <div class="field">
           <label>Tên xã/phường</label>
-          <input type="text" id="loginTenXa" placeholder="VD: Buôn Ma Thuột">
+          <input type="text" id="loginTenXa" placeholder="VD: Krông Búk">
         </div>
         <div class="field">
           <label>Mật khẩu</label>
-          <input type="password" id="loginMatKhau" placeholder="Daklak@2026">
+          <input type="password" id="loginMatKhau" placeholder="Nhập mật khẩu">
         </div>
         <div id="loginXaMsg"></div>
         <button class="btn btn-primary" id="btnLoginXa" style="width:100%;justify-content:center;">Đăng nhập</button>
@@ -1128,25 +1128,85 @@ function renderXaTable(){
 }
 document.getElementById('btnReloadXaList').addEventListener('click', loadXaList);
 
-const EXPORT_HEADERS = ['#','Tên/mã tài sản','Địa chỉ','Sđất (m²)','Snhà (m²)','Gtđ (đ/m²/năm)','Thời hạn thuê (năm)',
-  'k (%)','Trường hợp tính Ghm','Ghm (đ/năm)','Gt - Đơn giá (đ/m²/năm)','Sthuê (m²)','Ttn (đ/năm)','Có ưu đãi?','ktđ (%)','Sthuê ưu đãi (m²)','Ttnưđ (đ)','Ngày tính','Chi tiết hạng mục nhà'];
-function formatHangMucText(ghmChiTietRaw){
-  try{
-    const list = JSON.parse(ghmChiTietRaw || '[]');
-    if(!list.length) return '';
-    return list.map(d=>`${d.ten||'?'} (${fmt(d.dienTich)}m², TH${d.mode}, ${fmt(d.giaTri)}đ → Ghm ${fmt(d.ghm)}đ/năm)`).join(' | ');
-  }catch(e){ return ''; }
+// ---------------- Xuất Excel theo mẫu "Phụ lục đơn giá và tiền cho thuê nhà" ----------------
+// Sheet 1: đúng layout mẫu báo cáo chính thức (1 dòng / 1 cơ sở nhà, đất — số liệu tổng hợp).
+// Sheet 2: bảng chi tiết từng hạng mục nhà, công trình bên trong mỗi cơ sở (không mất dữ liệu).
+// Các cột mẫu không có sẵn dữ liệu trong hệ thống (đơn vị quản lý, tình trạng pháp lý, vị trí thửa
+// đất theo GCN/theo NQ19, năm đưa vào sử dụng, nguyên giá, mục đích cho thuê, quy hoạch, hình ảnh
+// hiện trạng) được để TRỐNG để đơn vị tự bổ sung bằng tay sau khi xuất.
+const TEMPLATE_MAIN_HEADER_ROW1 = ['STT','Đơn vị quản lý','Tên cơ sở nhà, đất','Địa chỉ cơ sở nhà, đất','Tình trạng pháp lý, hồ sơ quản lý tài sản',
+  'Đất','','','','','Nhà','','','Thời hạn cho thuê nhà (năm) (dự kiến)','Giá trị hao mòn hằng năm (đồng)','Đơn giá cho thuê nhà (đồng/m2/năm)','Tiền cho thuê nhà (đồng/năm)','Ghi chú','',''];
+const TEMPLATE_MAIN_HEADER_ROW2 = ['','','','','',
+  'Vị trí thửa đất (theo GCN)','Vị trí đất (theo Nghị quyết 19/2025/NQ-HĐND)','Diện tích đất (m2)','Đơn giá đất (đồng/m2)','Giá trị đất (đồng)',
+  'Năm đưa vào sử dụng','Diện tích sàn sử dụng (m2)','Nguyên giá (đồng)','','','','',
+  'Mục đích cho thuê','Quy hoạch','Hình ảnh hiện trạng'];
+
+function buildTemplateMainRows(rows){
+  return rows.map((r,idx)=>{
+    const sdat = parseFloat(r.Sdat), gtd = parseFloat(r.Gtd);
+    const giaTriDat = (!isNaN(sdat) && !isNaN(gtd)) ? sdat*gtd : '';
+    return [idx+1, '', r.tenTaiSan||'', r.diaChi||'', '',
+      '', '', r.Sdat||'', r.Gtd||'', giaTriDat,
+      '', r.Snha||'', '', r.tth||'', r.Ghm||'', r.Gt||'', r.Ttn||'',
+      '', '', ''];
+  });
 }
-function rowsToAoa(rows){
-  return rows.map((r,idx)=>[idx+1, r.tenTaiSan, r.diaChi, r.Sdat, r.Snha, r.Gtd, r.tth, r.k, r.ghmMode,
-    r.Ghm, r.Gt, r.Sthue, r.Ttn, r.uuDai, r.ktd, r.SthueUuDai, r.Ttnud, r.ngayTinh, formatHangMucText(r.ghmChiTiet)]);
+function buildTemplateDetailAoa(rows){
+  const header = ['STT tài sản','Tên cơ sở nhà, đất','Tên hạng mục nhà, công trình','Diện tích sàn hạng mục (m2)','Trường hợp tính Ghm','Giá trị hạng mục theo TH (đồng)','Ghm hạng mục (đồng/năm)'];
+  const body = [];
+  rows.forEach((r,idx)=>{
+    let list = [];
+    try{ list = JSON.parse(r.ghmChiTiet || '[]'); }catch(e){}
+    if(!list.length){
+      body.push([idx+1, r.tenTaiSan||'', '', '', '', '', '']);
+    } else {
+      list.forEach(d=>body.push([idx+1, r.tenTaiSan||'', d.ten||'', d.dienTich||'', d.mode?('TH'+d.mode):'', d.giaTri||'', d.ghm||'']));
+    }
+  });
+  return [header, ...body];
 }
+function sheetNameSafe(s, suffix){
+  const base = String(s||'Sheet').replace(/[\\\/\?\*\[\]:]/g,'_');
+  const max = Math.max(1, 31 - suffix.length);
+  return base.substring(0, max) + suffix;
+}
+function addTemplateSheets(wb, tenXaLabel, rows){
+  const title = ['PHỤ LỤC ĐƠN GIÁ VÀ TIỀN CHO THUÊ NHÀ'];
+  const sub = [`(Đính kèm hồ sơ xử lý, khai thác nhà đất dôi dư của ${tenXaLabel} — xuất ngày ${new Date().toLocaleDateString('vi-VN')})`];
+  const dvt = ['ĐVT: VNĐ'];
+  const aoa = [title, sub, dvt, TEMPLATE_MAIN_HEADER_ROW1, TEMPLATE_MAIN_HEADER_ROW2, ...buildTemplateMainRows(rows)];
+  const wsMain = XLSX.utils.aoa_to_sheet(aoa);
+  const hr1 = 3, hr2 = 4;
+  wsMain['!merges'] = [
+    { s:{r:0,c:0}, e:{r:0,c:19} },
+    { s:{r:1,c:0}, e:{r:1,c:19} },
+    { s:{r:2,c:0}, e:{r:2,c:19} },
+    { s:{r:hr1,c:5}, e:{r:hr1,c:9} },
+    { s:{r:hr1,c:10}, e:{r:hr1,c:12} },
+    { s:{r:hr1,c:17}, e:{r:hr1,c:19} },
+    { s:{r:hr1,c:0}, e:{r:hr2,c:0} },
+    { s:{r:hr1,c:1}, e:{r:hr2,c:1} },
+    { s:{r:hr1,c:2}, e:{r:hr2,c:2} },
+    { s:{r:hr1,c:3}, e:{r:hr2,c:3} },
+    { s:{r:hr1,c:4}, e:{r:hr2,c:4} },
+    { s:{r:hr1,c:13}, e:{r:hr2,c:13} },
+    { s:{r:hr1,c:14}, e:{r:hr2,c:14} },
+    { s:{r:hr1,c:15}, e:{r:hr2,c:15} },
+    { s:{r:hr1,c:16}, e:{r:hr2,c:16} },
+  ];
+  wsMain['!cols'] = new Array(20).fill({wch:16});
+  XLSX.utils.book_append_sheet(wb, wsMain, sheetNameSafe(tenXaLabel, ''));
+
+  const wsDetail = XLSX.utils.aoa_to_sheet(buildTemplateDetailAoa(rows));
+  wsDetail['!cols'] = new Array(7).fill({wch:18});
+  XLSX.utils.book_append_sheet(wb, wsDetail, sheetNameSafe(tenXaLabel, '_CT'));
+}
+
 document.getElementById('btnExportXaExcel').addEventListener('click', ()=>{
   if(!xaRows.length){ alert('Chưa có dữ liệu để xuất.'); return; }
   const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet([EXPORT_HEADERS, ...rowsToAoa(xaRows)]);
-  XLSX.utils.book_append_sheet(wb, ws, session.tenXa.substring(0,31));
-  XLSX.writeFile(wb, `DonGiaThueNha_${session.tenXa.replace(/[^\w]+/g,'_')}.xlsx`);
+  addTemplateSheets(wb, session.tenXa, xaRows);
+  XLSX.writeFile(wb, `PhuLucDonGiaChoThueNha_${session.tenXa.replace(/[^\w]+/g,'_')}.xlsx`);
 });
 
 // ---------------- Đổi mật khẩu (xã) ----------------
@@ -1212,10 +1272,9 @@ document.getElementById('btnExportAllExcel').addEventListener('click', async ()=
   if(!r.ok){ alert('Lỗi: '+r.error); return; }
   const wb = XLSX.utils.book_new();
   Object.keys(r.data).forEach(tenXa=>{
-    const ws = XLSX.utils.aoa_to_sheet([EXPORT_HEADERS, ...rowsToAoa(r.data[tenXa])]);
-    XLSX.utils.book_append_sheet(wb, ws, tenXa.substring(0,31)||'Sheet');
+    addTemplateSheets(wb, tenXa, r.data[tenXa]);
   });
-  XLSX.writeFile(wb, `DonGiaThueNha_TatCaXa_${new Date().toISOString().slice(0,10)}.xlsx`);
+  XLSX.writeFile(wb, `PhuLucDonGiaChoThueNha_TatCaXa_${new Date().toISOString().slice(0,10)}.xlsx`);
 });
 
 // ---------------- ADMIN: xem chi tiết 1 xã ----------------
@@ -1267,9 +1326,8 @@ function renderAdDetailTable(){
 document.getElementById('btnExportAdXaExcel').addEventListener('click', ()=>{
   if(!adDetailRows.length){ alert('Chưa có dữ liệu để xuất.'); return; }
   const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet([EXPORT_HEADERS, ...rowsToAoa(adDetailRows)]);
-  XLSX.utils.book_append_sheet(wb, ws, adDetailXaName.substring(0,31));
-  XLSX.writeFile(wb, `DonGiaThueNha_${adDetailXaName.replace(/[^\w]+/g,'_')}.xlsx`);
+  addTemplateSheets(wb, adDetailXaName, adDetailRows);
+  XLSX.writeFile(wb, `PhuLucDonGiaChoThueNha_${adDetailXaName.replace(/[^\w]+/g,'_')}.xlsx`);
 });
 </script>
 </body>
